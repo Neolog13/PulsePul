@@ -1,5 +1,5 @@
 import { Link, Outlet } from 'react-router-dom'
-import { getAllMeasurementsRoute } from '../../lib/routes'
+import { getAllMeasurementsRoute, getNewMeasRoute } from '../../lib/routes'
 import css from './index.module.scss'
 
 export const Layout = () => {
@@ -11,6 +11,11 @@ export const Layout = () => {
           <li className={css.item}>
             <Link className={css.link} to={getAllMeasurementsRoute()}>
               All measurements
+            </Link>
+          </li>
+          <li className={css.item}>
+            <Link className={css.link} to={getNewMeasRoute()}>
+              Add measurement
             </Link>
           </li>
         </ul>
