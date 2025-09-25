@@ -1,0 +1,34 @@
+import { getViewMeasRoute } from '../../lib/routes'
+import { trpc } from '../../lib/trpc'
+import { Link } from 'react-router-dom'
+
+export const AllMeasurementsPage = () => {
+  const { data, error, isLoading, isFetching, isError } = trpc.getMeasurements.useQuery()
+  if (isLoading || isFetching) {
+    return <span>Loading...</span>
+  }
+
+  if (isError) {
+    return <span>Error: {error.message}</span>
+  }
+
+  if (!data) {
+    return <span>No data available</span>
+  }
+
+  return (
+    <div>
+      <h1>All measurements</h1>
+      {data.measurements.map((measurement) => (
+        <div key={measurement.date}>
+          <h2>
+            <Link to={getViewMeasRoute({ date: measurement.date })}>{measurement.date}</Link>
+            </h2>
+          <p>SAP: {measurement.sap}</p>
+          <p>DAP: {measurement.dap}</p>
+          <p>Pulse: {measurement.pulse}</p>
+        </div>
+      ))}
+    </div>
+  )
+}
