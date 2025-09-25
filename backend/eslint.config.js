@@ -1,22 +1,17 @@
 import typescript from '@typescript-eslint/eslint-plugin'
 import typescriptParser from '@typescript-eslint/parser'
-import react from 'eslint-plugin-react'
-import reactHooks from 'eslint-plugin-react-hooks'
 
 export default [
   {
-    files: ['**/*.{ts,tsx}'],
+    files: ['**/*.ts'],
     languageOptions: {
       parser: typescriptParser,
     },
     plugins: {
       '@typescript-eslint': typescript,
-      react: react,
-      'react-hooks': reactHooks,
     },
     rules: {
       '@typescript-eslint/no-unused-vars': 'error',
-      'react-refresh/only-export-components': 'off',
     },
   },
   {
