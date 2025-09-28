@@ -1,10 +1,6 @@
 @use '../../styles/vars' as *;
 @use '../../styles/mixins' as *;
 
-.title {
-  @include h1;
-}
-
 .measurements {
   .measurement {
     padding: 20px;
