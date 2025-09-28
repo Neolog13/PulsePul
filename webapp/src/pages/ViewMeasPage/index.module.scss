@@ -1,0 +1,21 @@
+@use '../../styles/vars';
+@use '../../styles/mixins' as *;
+
+.title {
+  @include h1;
+  margin-bottom: 20px;
+}
+
+.sap,
+.dap {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.pulse {
+  font-size: 18px;
+
+  & > *:not(:first-child) {
+    margin-top: 10px;
+  }
+}

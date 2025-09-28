@@ -1,0 +1,29 @@
+@use '../../styles/vars' as *;
+@use '../../styles/mixins' as *;
+
+.title {
+  @include h1;
+}
+
+.measurements {
+  .measurement {
+    padding: 20px;
+    border: 1px solid $black;
+    border-radius: 10px;
+    & + .measurement {
+      margin-top: 20px;
+    }
+
+    .measDate {
+      @include h2;
+
+      .measLink {
+        @include link;
+      }
+    }
+
+    .measDescription {
+      font-size: 18px;
+    }
+  }
+}
