@@ -2,6 +2,7 @@ import { getViewMeasRoute } from '../../lib/routes'
 import { trpc } from '../../lib/trpc'
 import { Link } from 'react-router-dom'
 import css from './index.module.scss'
+import { Segment } from '../../components/Segment'
 
 export const AllMeasurementsPage = () => {
   const { data, error, isLoading, isFetching, isError } = trpc.getMeasurements.useQuery()
@@ -18,24 +19,38 @@ export const AllMeasurementsPage = () => {
   }
 
   return (
-    <div>
-      <h1 className={css.title}>All measurements</h1>
+    <Segment title="All measurements">
       <div className={css.measurements}>
         {data.measurements.map((measurement) => (
           <div className={css.measurement} key={measurement.date}>
-            <h2 className={css.date}>
-              <Link className={css.measLink} to={getViewMeasRoute({ date: measurement.date })}>
-              {measurement.date}
-              </Link>
-            </h2>
-               <p className={css.measDescription}>{measurement.sap}</p>
+            <Segment
+              size={2}
+              title={
+                <Link className={css.measLink} to={getViewMeasRoute({ date: measurement.date })}>
+                  {measurement.date}
+                </Link>
+              }
+            />
+
+            <Segment size={2} title={
+              <div className={css.measDescription}>
+                {`${measurement.sap} ${measurement.dap} ${measurement.pulse}`}
+                </div>
+            }
+                />
           </div>
         ))}
-    </div>
-</div>
+      </div>
+    </Segment>
+
+// {/* <Segment
+//   title={data.measurements}
+//   description={`SAP: ${data.measurements.} | DAP: ${data.measurements} | Pulse: ${data.measurements} `}
+// ></Segment> */}
 
 
-    //   <h1>All measurements</h1>
+
+//   <h1>All measurements</h1>
     //   {data.measurements.map((measurement) => (
     //     <div key={measurement.date}>
     //       <h2>

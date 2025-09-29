@@ -1,8 +1,7 @@
 import { useParams } from 'react-router-dom'
 import type { ViewMeasRouteParams } from '../../lib/routes'
 import { trpc } from '../../lib/trpc'
-import css from '../ViewMeasPage/index.module.scss'
-
+import { Segment } from '../../components/Segment'
 
 export const ViewMeasPage = () => {
   const { date } = useParams() as ViewMeasRouteParams
@@ -24,20 +23,9 @@ export const ViewMeasPage = () => {
   }
 
   return (
-     <div>
-      <h1 className={css.title}>{data.measurement.date}</h1>
-      <div className={css.sap}>{data.measurement.sap}</div>
-      <div className={css.dap}>{data.measurement.dap}</div>
-      <div className={css.pulse}>{data.measurement.pulse}</div>
-    </div>   
-
-
-
-    // <div>
-    //   <h1>{data.measurement.date}</h1>
-    //   <div>{data.measurement.sap}</div>
-    //   <div>{data.measurement.dap}</div>
-    //   <div>{data.measurement.pulse}</div>
-    // </div>
+    <Segment
+      title={data.measurement.date}
+      description={`SAP: ${data.measurement.dap} | DAP: ${data.measurement.sap} | Pulse: ${data.measurement.pulse} `}
+    ></Segment>
   )
 }

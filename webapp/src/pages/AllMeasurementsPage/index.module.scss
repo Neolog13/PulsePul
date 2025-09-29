@@ -10,16 +10,12 @@
       margin-top: 20px;
     }
 
-    .measDate {
-      @include h2;
-
-      .measLink {
-        @include link;
-      }
+    .measLink {
+      @include link;
     }
 
     .measDescription {
-      font-size: 18px;
+      font-size: 15px;
     }
   }
 }
