@@ -1,4 +1,5 @@
 {
   "eslint.workingDirectories": ["backend", "webapp"],
-  "yaml.maxItemsComputed": 10000
+  "yaml.maxItemsComputed": 10000,
+  "stylelint.validate": ["css", "scss"]
 }
