@@ -1,4 +1,4 @@
-@use '../../node_modules/reset-css/sass/_reset.scss';
+@use '../../node_modules/reset-css/sass/reset';
 @use './vars' as *;
 
 html,
@@ -11,9 +11,9 @@ body,
 }
 
 body {
+  background: $defaultBackgroundColor;
   background-color: $defaultFontFamily;
   font-size: $defaultFontSize;
-  background: $defaultBackgroundColor;
   color: $defaultTextColor;
   line-height: $defaultTextColor;
 }
