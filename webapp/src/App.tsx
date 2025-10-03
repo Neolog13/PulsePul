@@ -5,7 +5,7 @@ import * as routes from './lib/routes'
 import { ViewMeasPage } from './pages/ViewMeasPage'
 import { Layout } from './components/Layout'
 import './styles/global.scss'
-import { NewMeasPage } from './pages/newMeasurement'
+import { NewMeasPage } from './pages/NewMeasurementPage'
 
 export const App = () => {
   return (
