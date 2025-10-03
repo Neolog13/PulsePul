@@ -2,7 +2,7 @@ import z from 'zod'
 import { measurements } from '../../lib/measurements'
 import { trpc } from '../../lib/trpc'
 
-export const getMeasTrpcRoute = trpc.procedure
+export const getMeasurementTrpcRoute = trpc.procedure
   .input(
     z.object({
       date: z.string(),

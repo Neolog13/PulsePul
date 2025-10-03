@@ -1,10 +1,14 @@
 import { trpc } from '../lib/trpc'
-import { getMeassTrpcRoute } from './getMeasurements'
-import { getMeasTrpcRoute } from './getMeasurement'
+// @index('./**/index.ts', f => `import { ${f.path.split('/').slice(0, -1).pop()}TrpcRoute } from '${f.path.split('/').slice(0, -1).join('/')}'`)
+import { getMeasurementTrpcRoute } from './getMeasurement'
+import { getMeasurementsTrpcRoute } from './getMeasurements'
+// @endindex
 
 export const trpcRouter = trpc.router({
-  getMeasurement: getMeasTrpcRoute,
-  getMeasurements: getMeassTrpcRoute,
+  // @index('./**/index.ts', f => `${f.path.split('/').slice(0, -1).pop()}: ${f.path.split('/').slice(0, -1).pop('/')}TrpcRoute,`)
+  getMeasurement: getMeasurementTrpcRoute,
+  getMeasurements: getMeasurementsTrpcRoute,
+  // @endindex
 })
 
 export type TrpcRouter = typeof trpcRouter
