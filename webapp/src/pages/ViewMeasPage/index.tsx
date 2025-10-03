@@ -6,7 +6,7 @@ import { Segment } from '../../components/Segment'
 export const ViewMeasPage = () => {
   const { date } = useParams() as ViewMeasRouteParams
 
-  const { data, error, isLoading, isFetching, isError } = trpc.getMeas.useQuery({
+  const { data, error, isLoading, isFetching, isError } = trpc.getMeasurement.useQuery({
     date,
   })
 
