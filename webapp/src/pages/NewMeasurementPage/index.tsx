@@ -1,7 +1,11 @@
 import { Segment } from '../../components/Segment'
 import { Input } from '../../components/Input'
 import { useFormik } from 'formik'
-import { z } from 'zod'
+import { trpc } from '../../lib/trpc'
+import { zCreateMeasurementTrpcInput } from '@lena/backend/src/router/createMeasurement/input'
+import { useState } from 'react'
+import { Alert } from '../../components/Alert'
+import { Button } from '../../components/Button'
 
 interface MeasurementFormValues {
   date: string
@@ -11,70 +15,8 @@ interface MeasurementFormValues {
   pulse: string
 }
 
-const measurementSchema = z.object({
-  date: z.string().min(1, 'Date is required'),
-  time: z.string().min(1, 'Time is required'),
-  sap: z
-    .string()
-    .min(1, 'SAP is required')
-    .regex(/^\d+$/, 'SAP must be a whole number')
-    .refine((val) => {
-      const normalizedValue = val.replace(/^0+(\d+)$/, '$1') || '0'
-      const numericValue = Number(normalizedValue)
-      return numericValue > 0
-    }, 'SAP must be greater than 0')
-    .refine((val) => {
-      const normalizedValue = val.replace(/^0+(\d+)$/, '$1') || '0'
-      const numericValue = Number(normalizedValue)
-      return String(numericValue).length >= 2
-    }, 'SAP must be at least 2 digits')
-    .refine((val) => {
-      const normalizedValue = val.replace(/^0+(\d+)$/, '$1') || '0'
-      const numericValue = Number(normalizedValue)
-      return numericValue >= 20 && numericValue <= 300
-    }, 'SAP must be between 20 and 300'),
-  dap: z
-    .string()
-    .min(1, 'DAP is required')
-    .regex(/^\d+$/, 'DAP must be a whole number')
-    .refine((val) => {
-      const normalizedValue = val.replace(/^0+(\d+)$/, '$1') || '0'
-      const numericValue = Number(normalizedValue)
-      return numericValue > 0
-    }, 'DAP must be greater than 0')
-    .refine((val) => {
-      const normalizedValue = val.replace(/^0+(\d+)$/, '$1') || '0'
-      const numericValue = Number(normalizedValue)
-      return String(numericValue).length >= 2
-    }, 'DAP must be at least 2 digits')
-    .refine((val) => {
-      const normalizedValue = val.replace(/^0+(\d+)$/, '$1') || '0'
-      const numericValue = Number(normalizedValue)
-      return numericValue >= 30 && numericValue <= 150
-    }, 'DAP must be between 30 and 150'),
-  pulse: z
-    .string()
-    .min(1, 'Pulse is required')
-    .regex(/^\d+$/, 'Pulse must be a whole number')
-    .refine((val) => {
-      const normalizedValue = val.replace(/^0+(\d+)$/, '$1') || '0'
-      const numericValue = Number(normalizedValue)
-      return numericValue > 0
-    }, 'Pulse must be greater than 0')
-    .refine((val) => {
-      const normalizedValue = val.replace(/^0+(\d+)$/, '$1') || '0'
-      const numericValue = Number(normalizedValue)
-      return String(numericValue).length >= 2
-    }, 'Pulse must be at least 2 digits')
-    .refine((val) => {
-      const normalizedValue = val.replace(/^0+(\d+)$/, '$1') || '0'
-      const numericValue = Number(normalizedValue)
-      return numericValue >= 30 && numericValue <= 300
-    }, 'Pulse must be between 30 and 300'),
-})
-
 const validateWithZod = (values: MeasurementFormValues) => {
-  const result = measurementSchema.safeParse(values)
+  const result = zCreateMeasurementTrpcInput.safeParse(values)
 
   if (!result.success) {
     const errors: Record<string, string> = {}
@@ -93,6 +35,11 @@ const validateWithZod = (values: MeasurementFormValues) => {
 }
 
 export const NewMeasPage = () => {
+  const [successMessageVisible, setSuccessMessageVisible] = useState(false)
+  const [submittingError, setSubmittingError] = useState<string | null>(null)
+
+  const createMeasurement = trpc.createMeasurement.useMutation()
+
   const formik = useFormik<MeasurementFormValues>({
     initialValues: {
       date: new Date().toISOString().split('T')[0],
@@ -106,8 +53,17 @@ export const NewMeasPage = () => {
       pulse: '',
     },
     validate: validateWithZod,
-    onSubmit: (values) => {
-      console.log('Submitted', values)
+    onSubmit: async (values) => {
+      try {
+        await createMeasurement.mutateAsync(values)
+        formik.resetForm()
+        setSuccessMessageVisible(true)
+        setTimeout(() => setSuccessMessageVisible(false), 3000)
+      } catch (error) {
+        const message = error instanceof Error ? error.message : 'An unknown error occured'
+        setSubmittingError(message)
+        setTimeout(() => setSubmittingError(null), 3000)
+      }
     },
   })
 
@@ -127,13 +83,23 @@ export const NewMeasPage = () => {
 
   return (
     <Segment title="New Measurement">
-      <form onSubmit={formik.handleSubmit}>
+      <form
+        onSubmit={(e) => {
+          e.preventDefault()
+          formik.handleSubmit(e)
+        }}
+      >
         <Input name="date" label="Date" type="date" formik={formik} />
         <Input name="time" label="Time" type="time" formik={formik} />
         <Input name="sap" label="SAP" type="number" formik={formik} onBlur={handleBlur} />
         <Input name="dap" label="DAP" type="number" formik={formik} onBlur={handleBlur} />
         <Input name="pulse" label="Pulse" type="number" formik={formik} onBlur={handleBlur} />
-        <button type="submit">Create measurement</button>
+        {!!submittingError && <Alert color="red">{submittingError}</Alert>}
+        {successMessageVisible && <Alert color="green">Measurement created successfully!</Alert>}
+        {/* <button type="submit" disabled={formik.isSubmitting}>
+          {formik.isSubmitting ? 'Submitting...' : 'Create measurement'}
+        </button> */}
+        <Button loading={formik.isSubmitting}>Create measurement</Button>
       </form>
     </Segment>
   )
