@@ -1,0 +1,6 @@
+import type { ReactNode } from 'react'
+import css from './index.module.scss'
+
+export const FormItems = ({ children }: { children: ReactNode }) => {
+  return <div className={css.formItems}>{children}</div>
+}

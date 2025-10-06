@@ -6,6 +6,7 @@ import { zCreateMeasurementTrpcInput } from '@lena/backend/src/router/createMeas
 import { useState } from 'react'
 import { Alert } from '../../components/Alert'
 import { Button } from '../../components/Button'
+import { FormItems } from '../../components/FormItems'
 
 interface MeasurementFormValues {
   date: string
@@ -89,17 +90,16 @@ export const NewMeasPage = () => {
           formik.handleSubmit(e)
         }}
       >
-        <Input name="date" label="Date" type="date" formik={formik} />
-        <Input name="time" label="Time" type="time" formik={formik} />
-        <Input name="sap" label="SAP" type="number" formik={formik} onBlur={handleBlur} />
-        <Input name="dap" label="DAP" type="number" formik={formik} onBlur={handleBlur} />
-        <Input name="pulse" label="Pulse" type="number" formik={formik} onBlur={handleBlur} />
-        {!!submittingError && <Alert color="red">{submittingError}</Alert>}
-        {successMessageVisible && <Alert color="green">Measurement created successfully!</Alert>}
-        {/* <button type="submit" disabled={formik.isSubmitting}>
-          {formik.isSubmitting ? 'Submitting...' : 'Create measurement'}
-        </button> */}
-        <Button loading={formik.isSubmitting}>Create measurement</Button>
+        <FormItems>
+          <Input name="date" label="Date" type="date" formik={formik} />
+          <Input name="time" label="Time" type="time" formik={formik} />
+          <Input name="sap" label="SAP" type="number" formik={formik} onBlur={handleBlur} />
+          <Input name="dap" label="DAP" type="number" formik={formik} onBlur={handleBlur} />
+          <Input name="pulse" label="Pulse" type="number" formik={formik} onBlur={handleBlur} />
+          {!!submittingError && <Alert color="red">{submittingError}</Alert>}
+          {successMessageVisible && <Alert color="green">Measurement created successfully!</Alert>}
+          <Button loading={formik.isSubmitting}>Create measurement</Button>
+        </FormItems>
       </form>
     </Segment>
   )
