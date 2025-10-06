@@ -16,6 +16,17 @@ export default [
     },
     rules: {
       '@typescript-eslint/no-unused-vars': 'error',
+      '@typescript-eslint/no-restricted-imports': [
+        'error',
+        {
+          patterns: [
+            {
+              regex: '^@ideanick/backend/(?!(.*/)?input$).+$',
+              message: 'Import from backend is only allowed for input files',
+            },
+          ],
+        },
+      ],
       'react-refresh/only-export-components': 'off',
     },
   },
