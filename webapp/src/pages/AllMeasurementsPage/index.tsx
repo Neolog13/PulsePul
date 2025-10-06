@@ -3,9 +3,11 @@ import { trpc } from '../../lib/trpc'
 import { Link } from 'react-router-dom'
 import css from './index.module.scss'
 import { Segment } from '../../components/Segment'
+import { measurements } from '@lena/backend/src/lib/measurements'
 
 export const AllMeasurementsPage = () => {
   const { data, error, isLoading, isFetching, isError } = trpc.getMeasurements.useQuery()
+  console.log(data,measurements)
   if (isLoading || isFetching) {
     return <span>Loading...</span>
   }
@@ -27,7 +29,7 @@ export const AllMeasurementsPage = () => {
               size={2}
               title={
                 <Link className={css.measLink} to={getViewMeasRoute({ date: measurement.date })}>
-                  {measurement.date}
+                  {`${measurement.date} ${measurement.time}`}
                 </Link>
               }
             />
@@ -42,25 +44,5 @@ export const AllMeasurementsPage = () => {
         ))}
       </div>
     </Segment>
-
-// {/* <Segment
-//   title={data.measurements}
-//   description={`SAP: ${data.measurements.} | DAP: ${data.measurements} | Pulse: ${data.measurements} `}
-// ></Segment> */}
-
-
-
-//   <h1>All measurements</h1>
-    //   {data.measurements.map((measurement) => (
-    //     <div key={measurement.date}>
-    //       <h2>
-    //         <Link to={getViewMeasRoute({ date: measurement.date })}>{measurement.date}</Link>
-    //         </h2>
-    //       <p>SAP: {measurement.sap}</p>
-    //       <p>DAP: {measurement.dap}</p>
-    //       <p>Pulse: {measurement.pulse}</p>
-    //     </div>
-    //   ))}
-    // </div>
   )
 }

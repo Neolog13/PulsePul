@@ -24,7 +24,7 @@ export const ViewMeasPage = () => {
 
   return (
     <Segment
-      title={data.measurement.date}
+      title={`${data.measurement.date} ${data.measurement.time}`}
       description={`SAP: ${data.measurement.dap} | DAP: ${data.measurement.sap} | Pulse: ${data.measurement.pulse} `}
     ></Segment>
   )
