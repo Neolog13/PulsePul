@@ -2,10 +2,13 @@
   "name": "@lena/backend",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch ./src/index.ts",
+    "dev": "tsx watch --watch ./.env ./src/index.ts",
+    "pmd": "prisma migrate dev",
+    "pgc": "prisma generate",
     "types": "tsc --noEmit --project ./tsconfig.json",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/.eslintcache --ext .ts .",
-    "lint:fix": "eslint --fix --cache --cache-location ./node_modules/.cache/.eslintcache --ext .ts ."
+    "lint:fix": "eslint --fix --cache --cache-location ./node_modules/.cache/.eslintcache --ext .ts .",
+    "prepare": "pnpm pgc"
   },
   "devDependencies": {
     "@types/cors": "^2.8.19",
@@ -17,6 +20,9 @@
     "prisma": "^6.16.3",
     "tsx": "^4.19.3",
     "typescript": "^5.6.3"
+  },
+  "prisma": {
+    "schema": "./src/prisma/schema.prisma"
   },
   "dependencies": {
     "@prisma/client": "^6.16.3",
