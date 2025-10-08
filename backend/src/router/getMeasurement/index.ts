@@ -1,14 +1,23 @@
 import z from 'zod'
-import { measurements } from '../../lib/measurements'
 import { trpc } from '../../lib/trpc'
 
 export const getMeasurementTrpcRoute = trpc.procedure
   .input(
     z.object({
       date: z.string(),
+      time: z.string(),
     })
   )
-  .query(({ input }) => {
-    const measurement = measurements.find((measurement) => measurement.date === input.date)
-    return { measurement: measurement || null }
+  .query(async ({ input, ctx }) => {
+    const measurement = await ctx.prisma.measurement.findFirst({
+      where: {
+        date: input.date,
+        time: input.time,
+      },
+    })
+    
+    return { 
+      measurement,
+      exists: !!measurement
+    }
   })
