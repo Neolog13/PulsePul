@@ -4,11 +4,10 @@ import { trpc } from '../../lib/trpc'
 import { Segment } from '../../components/Segment'
 
 export const ViewMeasPage = () => {
-  const { date, time } = useParams() as ViewMeasRouteParams
+  const { timestamp } = useParams() as ViewMeasRouteParams
 
   const { data, error, isLoading, isFetching, isError } = trpc.getMeasurement.useQuery({
-    date,
-    time,
+    timestamp,
   })
 
   if (isLoading || isFetching) {
@@ -25,7 +24,7 @@ export const ViewMeasPage = () => {
 
   return (
     <Segment
-      title={`${data.measurement.date} ${data.measurement.time}`}
+      title={`${data.measurement.timestamp}`}
       description={`SAP: ${data.measurement.dap} | DAP: ${data.measurement.sap} | Pulse: ${data.measurement.pulse} `}
     ></Segment>
   )

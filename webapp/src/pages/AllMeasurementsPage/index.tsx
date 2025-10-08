@@ -3,11 +3,9 @@ import { trpc } from '../../lib/trpc'
 import { Link } from 'react-router-dom'
 import css from './index.module.scss'
 import { Segment } from '../../components/Segment'
-import { measurements } from '@lena/backend/src/lib/measurements'
 
 export const AllMeasurementsPage = () => {
   const { data, error, isLoading, isFetching, isError } = trpc.getMeasurements.useQuery()
-  console.log(data, measurements)
   if (isLoading || isFetching) {
     return <span>Loading...</span>
   }
@@ -24,15 +22,12 @@ export const AllMeasurementsPage = () => {
     <Segment title="All measurements">
       <div className={css.measurements}>
         {data.measurements.map((measurement) => (
-          <div className={css.measurement} key={`${measurement.date} ${measurement.time}`}>
+          <div className={css.measurement} key={`${measurement.timestamp}`}>
             <Segment
               size={2}
               title={
-                <Link
-                  className={css.measLink}
-                  to={getViewMeasRoute({ date: measurement.date, time: measurement.time })}
-                >
-                  {`${measurement.date} ${measurement.time}`}
+                <Link className={css.measLink} to={getViewMeasRoute({ timestamp: measurement.timestamp })}>
+                  {`${measurement.timestamp}`}
                 </Link>
               }
             />

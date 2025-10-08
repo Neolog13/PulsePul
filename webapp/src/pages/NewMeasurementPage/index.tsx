@@ -9,8 +9,7 @@ import { Button } from '../../components/Button'
 import { FormItems } from '../../components/FormItems'
 
 interface MeasurementFormValues {
-  date: string
-  time: string
+  timestamp: string
   sap: string
   dap: string
   pulse: string
@@ -43,12 +42,7 @@ export const NewMeasPage = () => {
 
   const formik = useFormik<MeasurementFormValues>({
     initialValues: {
-      date: new Date().toISOString().split('T')[0],
-      time: new Date().toLocaleTimeString('en-GB', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false,
-      }),
+      timestamp: new Date().toISOString().slice(0, 16),
       sap: '',
       dap: '',
       pulse: '',
@@ -56,7 +50,12 @@ export const NewMeasPage = () => {
     validate: validateWithZod,
     onSubmit: async (values) => {
       try {
-        await createMeasurement.mutateAsync(values)
+        await createMeasurement.mutateAsync({
+          timestamp: new Date(values.timestamp).toISOString(),
+          sap: values.sap,
+          dap: values.dap,
+          pulse: values.pulse,
+        })
         formik.resetForm()
         setSuccessMessageVisible(true)
         setTimeout(() => setSuccessMessageVisible(false), 3000)
@@ -91,8 +90,7 @@ export const NewMeasPage = () => {
         }}
       >
         <FormItems>
-          <Input name="date" label="Date" type="date" formik={formik} />
-          <Input name="time" label="Time" type="time" formik={formik} />
+          <Input name="timestamp" label="Date & Time" type="datetime-local" formik={formik} />
           <Input name="sap" label="SAP" type="number" formik={formik} onBlur={handleBlur} />
           <Input name="dap" label="DAP" type="number" formik={formik} onBlur={handleBlur} />
           <Input name="pulse" label="Pulse" type="number" formik={formik} onBlur={handleBlur} />

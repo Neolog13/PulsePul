@@ -6,7 +6,7 @@ import cn from 'classnames'
 export interface InputProps {
   name: string
   label: string
-  type: 'date' | 'time' | 'number'
+  type: 'date' | 'time' | 'number' | 'datetime-local' | 'text'
   formik: FormikProps<any>
   maxWidth?: number
   onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void

@@ -4,11 +4,11 @@ const getRouteParams = <T extends Record<string, boolean>>(object: T) => {
 
 export const getAllMeasurementsRoute = () => '/'
 
-export const viewMeasRouteParams = getRouteParams({ date: true, time: true })
+export const viewMeasRouteParams = getRouteParams({ timestamp: true })
 export type ViewMeasRouteParams = typeof viewMeasRouteParams
 
-export const getViewMeasRoutePath = () => '/meas/:date/:time'
+export const getViewMeasRoutePath = () => '/meas/:timestamp'
 
-export const getViewMeasRoute = ({ date, time }: { date: string; time: string }) => `meas/${date}/${time}`
+export const getViewMeasRoute = ({ timestamp }: { timestamp: string }) => `meas/${timestamp}`
 
 export const getNewMeasRoute = () => 'meas/new'
