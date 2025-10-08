@@ -7,7 +7,7 @@ import { measurements } from '@lena/backend/src/lib/measurements'
 
 export const AllMeasurementsPage = () => {
   const { data, error, isLoading, isFetching, isError } = trpc.getMeasurements.useQuery()
-  console.log(data,measurements)
+  console.log(data, measurements)
   if (isLoading || isFetching) {
     return <span>Loading...</span>
   }
@@ -24,22 +24,27 @@ export const AllMeasurementsPage = () => {
     <Segment title="All measurements">
       <div className={css.measurements}>
         {data.measurements.map((measurement) => (
-          <div className={css.measurement} key={measurement.date}>
+          <div className={css.measurement} key={`${measurement.date} ${measurement.time}`}>
             <Segment
               size={2}
               title={
-                <Link className={css.measLink} to={getViewMeasRoute({ date: measurement.date })}>
+                <Link
+                  className={css.measLink}
+                  to={getViewMeasRoute({ date: measurement.date, time: measurement.time })}
+                >
                   {`${measurement.date} ${measurement.time}`}
                 </Link>
               }
             />
 
-            <Segment size={2} title={
-              <div className={css.measDescription}>
-                {`${measurement.sap} ${measurement.dap} ${measurement.pulse}`}
+            <Segment
+              size={2}
+              title={
+                <div className={css.measDescription}>
+                  {`${measurement.sap} ${measurement.dap} ${measurement.pulse}`}
                 </div>
-            }
-                />
+              }
+            />
           </div>
         ))}
       </div>
