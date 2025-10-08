@@ -2,7 +2,7 @@
   "name": "@lena/backend",
   "type": "module",
   "scripts": {
-    "dev": "tsx watch --watch ./.env ./src/index.ts",
+    "dev": "tsx watch ./src/index.ts",
     "pmd": "prisma migrate dev",
     "pgc": "prisma generate",
     "types": "tsc --noEmit --project ./tsconfig.json",
