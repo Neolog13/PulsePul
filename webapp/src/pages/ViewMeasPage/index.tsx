@@ -1,7 +1,9 @@
+import { format } from 'date-fns/format'
 import { useParams } from 'react-router-dom'
 import type { ViewMeasRouteParams } from '../../lib/routes'
 import { trpc } from '../../lib/trpc'
 import { Segment } from '../../components/Segment'
+import css from './index.module.scss'
 
 export const ViewMeasPage = () => {
   const { timestamp } = useParams() as ViewMeasRouteParams
@@ -23,9 +25,9 @@ export const ViewMeasPage = () => {
   }
 
   return (
-    <Segment
-      title={`${data.measurement.timestamp}`}
-      description={`SAP: ${data.measurement.dap} | DAP: ${data.measurement.sap} | Pulse: ${data.measurement.pulse} `}
-    ></Segment>
+    <Segment title={`Measurement`}>
+      <div className={css.timestamp}>Date of measurement: {format(data.measurement.timestamp, 'yyy-MM-dd HH:mm')}</div>
+      <div className={css.text}>SAP: {data.measurement.dap} | DAP: {data.measurement.sap} | Pulse: {data.measurement.pulse}</div>
+    </Segment>
   )
 }

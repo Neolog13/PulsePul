@@ -26,8 +26,8 @@ export const AllMeasurementsPage = () => {
             <Segment
               size={2}
               title={
-                <Link className={css.measLink} to={getViewMeasRoute({ timestamp: measurement.timestamp })}>
-                  {`${measurement.timestamp}`}
+                <Link className={css.measLink} to={getViewMeasRoute({ timestamp: measurement.timestamp.toISOString() })}>
+                  {`${measurement.timestamp.toISOString()}`}
                 </Link>
               }
             />

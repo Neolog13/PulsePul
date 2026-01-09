@@ -1,4 +1,4 @@
-@use '../../styles/vars';
+@use '../../styles/vars' as *;
 @use '../../styles/mixins' as *;
 
 .title {
@@ -6,16 +6,15 @@
   margin-bottom: 20px;
 }
 
-.sap,
-.dap {
-  font-size: 50px;
-  margin-bottom: 20px;
+.timestamp {
+  font-size: 15px;
+  margin-bottom: 10px;
 }
 
-.pulse {
-  font-size: 18px;
+.text {
+  font-size: 14px;
 
-  & > *:not(:first-child) {
+  & >*:not(:first-child) {
     margin-top: 10px;
   }
 }
